@@ -1,0 +1,76 @@
+#version 330 core
+layout(location = 0) in vec3 aPos;
+
+
+out vec3 ourColor;
+
+
+//Coord. Sys. chapter
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
+
+//cycle colors
+uniform int colorSet;
+
+//plant sway animation
+uniform float systime;
+
+
+void main()
+{
+
+    //Tree
+    //gl_Position = projection * view * model * vec4(aPos, 1.0); //camera --NO SWAY
+
+    //SET POSITION
+    float timeFactor = 0.6;
+    float swaySeverity = 0.05;
+    float swayX = +swaySeverity * aPos.y * ((sin(systime * timeFactor) + 0) / 2);
+    float swayZ = +swaySeverity * aPos.y * ((sin(systime * timeFactor + 1) + 0) / 2);
+    gl_Position = projection * view * model * vec4(aPos.x + swayX, aPos.y, aPos.z + swayZ, 1.0); //camera + sway v2
+
+    //SET COLOR
+    if (colorSet == 0) {
+        ourColor = vec3(1.0 - (aPos.y / 40), 0.0 * (aPos.x / 10 + 10), (aPos.y / 40)); //2 gradient pink blue
+    }
+    else if (colorSet == 1) {
+        ourColor = vec3((aPos.y / 40), 0.0 * (aPos.x / 10 + 10), 1.0 - (aPos.y / 40)); //2 gradient pink blue
+    }
+    else if (colorSet == 2) {
+        ourColor = vec3(0.0 * (aPos.y / 10), 0.75 * ((aPos.y + 10) / 40), 1.0 - (0.75 * ((aPos.y - 10) / 20))); //2 gradient green blue
+    }
+    else if (colorSet == 3) {
+        ourColor = vec3(0.0 * (aPos.y / 10), 1.0 - (0.75 * ((aPos.y - 10) / 20)), 0.75 * ((aPos.y + 10) / 40)); //2 gradient green blue
+    }
+    else if (colorSet == 4) {
+        ourColor = vec3(1.0 * (abs(aPos.z / 10)), 1.0 * (aPos.y / 40), (abs(aPos.x) / 10)); //3 gradient 1
+    }
+    else if (colorSet == 5) {
+        ourColor = vec3(1.0 * (abs(aPos.x / 10)), 1.0 * (aPos.y / 40), (abs(aPos.z) / 10)); //3 gradient 2
+    }
+    else if (colorSet == 6) {
+        ourColor = vec3(0.0 * (aPos.y / 40), (aPos.y / 40), (aPos.y / 40)); //1 gradient cyan
+    }
+    else if (colorSet == 7) {
+        ourColor = vec3((aPos.y / 40), (aPos.y / 40), 0.0 * (aPos.y / 40)); //1 gradient yellow
+    }
+    else if (colorSet == 8) {
+        ourColor = vec3((aPos.y / 40), (aPos.y / 40), (aPos.y / 40)); //1 gradient white
+    }
+    else if (colorSet == 9) {
+        ourColor = vec3((aPos.y / 30), 0.0 * (aPos.y / 40), 0.0 * (aPos.y / 40)); //1 gradient red
+    }
+    else if (colorSet == 10) {
+        ourColor = vec3(0.0 * (aPos.y / 30), (aPos.y / 40), 0.0 * (aPos.y / 40)); //1 gradient green
+    }
+    else if (colorSet == 11) {
+        ourColor = vec3(0.0, 0.0, (aPos.y / 20)); //1 gradient blue
+    }
+    else if (colorSet == 12) {
+        ourColor = vec3(1.0 - (0.75 * ((aPos.y - 10) / 20)), 0.75 * ((aPos.y + 10) / 40), 0.0 * (aPos.y / 10)); //2 gradient red green
+    }
+    else {
+        ourColor = vec3((aPos.y / 40), 0.0 * (aPos.x / 10 + 10), (aPos.y / 40)); //1 gradient pink
+    }
+}
