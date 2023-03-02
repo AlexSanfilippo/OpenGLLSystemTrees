@@ -50,7 +50,7 @@ public:
 	/*Constructor*/
 	Lsystem(int myMin = 1, int myMax = 12) {
 		srand(time(NULL));
-		//srand(seed);
+		
 
 		maxRules = myMax;
 		minRules = myMin;

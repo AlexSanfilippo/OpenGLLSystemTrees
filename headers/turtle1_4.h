@@ -71,24 +71,22 @@ public:
                 R * cos(2.0f* (float)PI / 3.0f), 0.0f, R* sin(2.0f * (float)PI / 3.0f) };
             
             
-            //vertices = { -width, 0.0f, 0.0f, width, 0.0, 0.0,  0.0, 0.0,  2 * width }; //old scalene triangle
+            
             indicesIndex = 0;
-            //cout << "Turtle created in 3d mode...\n";
+            
             baseVertices = vertices;
         }
-        else {
-            //cout << "Turtle created in 2d mode...\n";
-        }
+        
         
         angle = myAngle;
         instructions = myInstructions;   
 
      
         
-        L.readRules();
+        //L.readRules();
         L.iterate(3);
         instructions = L.getInstructions();
-        cout << "Our Turtle found instructions " << instructions << endl;
+        
 
     }
 
@@ -143,10 +141,9 @@ public:
                 }
                 */
             }
-            cout << "after iterate " << j <<" instructions are " << instructions << endl;
+            
         }
 
-        cout << "after iterate() instructions are " << instructions << endl;
         
     }
 
@@ -187,10 +184,10 @@ public:
                 }
                 
             }
-            cout << "after iterate " << j << " instructions are " << instructions << endl;
+            
         }
 
-        cout << "after iterate() instructions are " << instructions << endl;
+        
 
     }
 

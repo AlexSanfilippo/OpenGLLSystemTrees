@@ -1,18 +1,19 @@
 /*
 * Current Issues:   1) DONE bring my code into a new OpenGL project and get it running 
-*                   2) Learn how to compile/export this project for distrubtion to others
+*                   2) DONE Learn how to compile/export this project for distrubtion to others
 *                          a) DONE Build on RELEASE mode
-*                   3) Upload to a new Git repository on GitHub -DONE
+*                   3) DONE Upload to a new Git repository on GitHub -DONE
 *                           a) improve by move headers to soln folder in a new headers folder and re-link
 *                   3) Clean up and comment the code properly
 *                   4) Upload to itch.io and one other file-sharing site (one that doesn't require a minimum donation to me)
+*                   4b) write Medium article
 *                   5) Share my project on
 *                       a) LinkedIn
 *                       b) Facebook
 *                       c) Reddit
 *                       d) Discord friends
 *                       e) Burroughs Friends
-*Date:24 Feb, 2023
+*Date:2 March, 2023
 *Author: Alexander Sanfilippo
 * Brief: This program uses openGL and L-Systems to draw procedurally generated tree-like modules by placing points in space
 *       and connecting these points as the vertices of triangles.  The goal here is to apply what I have learned from
@@ -20,8 +21,6 @@
 *
 *
 */
-
-//ABDEFG
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -82,7 +81,7 @@ int colorSetChange = 0;
 //change camera rotation radius in-program UP and DOWN keys
 float radius = 60.0f;
 
-//Forr spawning new tree - change name later
+//For spawning new tree - change name later
 float stretch = 1.0f;
 bool changeTree = false;
 //For "growing" tree by manipulating scale over time
@@ -136,83 +135,11 @@ int main()
 
     Shader ourShader("3.3.shader.vs", "3.3.shader.fs");
     
-    //Shader ourShader("C:/Users/2015a/Documents/C++ Projects/OpenGLProjects/Include/headers/3.3.shader.vs",
-    //    "C:/Users/2015a/Documents/C++ Projects/OpenGLProjects/Include/headers/3.3.shader.fs"); 
     
-    // you can name your shader files however you like
-
-    // set up vertex data (and buffer(s)) and configure vertex attributes
-    // ------------------------------------------------------------------
-    float verticesOld[] = {
-        // positions         // colors
-         0.9f, -0.9f, 0.0f,  1.0f, 0.0f, 1.0f,  // bottom right
-        -0.9f, -0.9f, 0.0f,  0.0f, 1.0f, 1.0f,  // bottom left
-         0.0f,  0.9f, 0.0f,  0.0f, 0.0f, 0.0f   // top 
-    };
-    
-    float vertices2[] = {
-        // positions          // colors           // texture coords
-         1.0f,  1.0f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
-         1.0f, -1.0f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
-        -1.0f, -1.0f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
-        -1.0f,  1.0f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left 
-    };
-    float vertices3[] = {
-        // positions          // colors           // texture coords
-         0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
-         0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
-        -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
-        -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f,    // top left 
-         0.0f,  1.0f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  //can we add another?-YES
-    };
-    float verticesCube[] = {
-    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-     0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-
-    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-    -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-    -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-     0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-     0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-     0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-     0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-    };
     
     
     Turtle turtle = Turtle(3); //create our turtle
     //tell turtle to generate vertices and index information
-    //turtle.iterate3D(3);
     turtle.draw3D();
     
     cout << "turtle drew " << turtle.numVertices/3 << " triangles. \n";
@@ -222,7 +149,7 @@ int main()
    
     
     //dynamically created array of floats
-    //int size = vertices_vec.size();
+    
     int verticesSize = vertices_vec.size();
     float* vertices = new float[verticesSize];
     //populate the vertices
@@ -230,11 +157,8 @@ int main()
         vertices[i] = vertices_vec[i];
 
     }
+
     //repeat for indices
-    
-    
-    
-    //NEW Indices dynamic size
     vector<unsigned int> indices_vec = turtle.getIndices();
     //dynamically created array of floats
     //int size = vertices_vec.size();
@@ -290,149 +214,42 @@ int main()
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices[0])* verticesSize, &vertices[0], GL_STATIC_DRAW);
     
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices) * indicesSize, &indices[0], GL_STATIC_DRAW); //works with small vertices
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices[0])* indicesSize * 1, &indices[0], GL_STATIC_DRAW);
 
-    
-    /*
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesB), indicesB, GL_STATIC_DRAW);
-    */
+   
 
     // position attribute
     glVertexAttribPointer(0, 3, GL_FLOAT/*type*/, GL_FALSE, 3 * sizeof(float)/*stride was 3*/, (void*)0)/*offset*/;
     glEnableVertexAttribArray(0);
-    // color attribute
-    //glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-    //glEnableVertexAttribArray(1);
-    // texture coord attribute
-    //glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-    //glEnableVertexAttribArray(1);
-
-    // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
-    // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-    // glBindVertexArray(0);
+    
     
 
     
     
    
-    /*[TEXTURE]create a texture (id)*/
-    unsigned int texture1, texture2;
-    //texture1
-    glGenTextures(1, &texture1);
-    glBindTexture(GL_TEXTURE_2D, texture1);
+  
     
-    // set the texture wrapping/filtering options (on the currently bound texture object)
-    //wrapping
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    //filtering
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    /*[TEXTURE]If using clamp border wrapping, then set border color this way*/
-    float borderColor[] = { 1.0f, 1.0f, 0.0f, 1.0f };
-    glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
-    // load and generate the texture
-    stbi_set_flip_vertically_on_load(true);
-    int width, height, nrChannels;
-    unsigned char* data = stbi_load("container.jpg", &width, &height, &nrChannels, 0);
-    if (data)
-    {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else
-    {
-        std::cout << "Failed to load texture" << std::endl;
-    }
-    stbi_image_free(data);
-
-    //texture 2
-    glGenTextures(1, &texture2);
-    glBindTexture(GL_TEXTURE_2D, texture2);
-    // set the texture wrapping/filtering options (on the currently bound texture object)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    /*[TEXTURE]If using clamp border wrapping, then set border color this way*/
     
-    glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
-    //load the image
-    data = stbi_load("textures/awesomeface.png", &width, &height, &nrChannels, 0);
-    if (data)
-    {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else
-    {
-        std::cout << "Failed to load awesomeface texture" << std::endl;
-    }
-    stbi_image_free(data);
+   
+    
 
 
     
 
     
-    /*Tut: see max number of vertex attributes (aka inputs to the vertex shader) allowed on my hardware*/
-    /*
-    int nrAttributes;
-    glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
-    std::cout << "Maximum nr of vertex attributes supported: " << nrAttributes << std::endl;
-    */
-
-    /*Transformations-basic vector transformation*/
-    /*
-    glm::vec4 vec(1.0f, 0.0f, 0.0f, 1.0f); //glm vector of 3 4 floats
-    glm::mat4 trans = glm::mat4(1.0f); //id matrix
-    trans = glm::translate(trans, glm::vec3(1.0f, 1.0f, 0.0f)); //(id matrix, transformation vector) = translation matrix
-    vec = trans * vec; //multiply our vector by the translation matrix
-    std::cout << vec.x << vec.y << vec.z << std::endl;
-    */
-    /*Rotate and Scale an object*/
-    /*
-    glm::mat4 trans = glm::mat4(1.0f);
-    trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
-    trans = glm::scale(trans, glm::vec3(1.0, 1.0, 1.0));
-    */
+   
     
 
-    bool moveTriangle = false;
-
-
-    //[TEXTURE]
-    ourShader.use(); // don't forget to activate the shader before setting uniforms!  
-    glUniform1i(glGetUniformLocation(ourShader.ID, "texture1"), 0); // set it manually
-    ourShader.setInt1("texture2", 1); // or with shader class
 
     //[COORD SYS]
     //3D projection
     glm::mat4 model = glm::mat4(1.0f);
-    //model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
     
-    //glm::mat4 view = glm::mat4(1.0f);
-    // note that we're translating the scene in the reverse direction of where we want to move
-    //view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
     glm::mat4 projection;
     projection = glm::perspective(glm::radians(45.0f)/*FOV*/, 1200.0f / 800.0f/*aspect ratio*/, 0.1f, 100.0f);
 
     glEnable(GL_DEPTH_TEST); //enable depth testing
 
-    //cube postions 
-    glm::vec3 cubePositions[] = {
-    glm::vec3(0.0f,  0.0f,  0.0f),
-    glm::vec3(2.0f,  5.0f, -15.0f),
-    glm::vec3(-1.5f, -2.2f, -2.5f),
-    glm::vec3(-3.8f, -2.0f, -12.3f),
-    glm::vec3(2.4f, -0.4f, -3.5f),
-    glm::vec3(-1.7f,  3.0f, -7.5f),
-    glm::vec3(1.3f, -2.0f, -2.5f),
-    glm::vec3(1.5f,  2.0f, -2.5f),
-    glm::vec3(1.5f,  0.2f, -1.5f),
-    glm::vec3(-1.3f,  1.0f, -1.5f)
-    };
     //tree postions 
     glm::vec3 treePositions[] = {
     glm::vec3(0.0f,  0.0f,  0.0f),
@@ -483,7 +300,7 @@ int main()
 
         /*Spawn New Tree (Wrap into a function later on, this is messy*/
         if (stretch == 2.0) {
-            cout << "Making New Tree\n";
+           
             stretch = 1.0;
             
             
@@ -492,7 +309,7 @@ int main()
             //turtle.iterate3D(3);
             turtle.draw3D();
 
-            cout << "turtle drew " << turtle.numVertices / 3 << " triangles. \n";
+            //cout << "turtle drew " << turtle.numVertices / 3 << " triangles. \n";
 
             //get vertex info from the turtle and convert to CPP array
             vector<float> vertices_vec = turtle.getVertices();
@@ -526,9 +343,9 @@ int main()
             elmsToRender = turtle.numVertices;
             elmsToRenderMax = turtle.numVertices; //nonchanging
 
-            cout << "New tree has elmsToRender " << elmsToRender << " vertices\n";
-            cout << "NEW Indices size = " << indicesSize << endl;
-            cout << "NEW vertices size = " << verticesSize << endl;
+            //cout << "New tree has elmsToRender " << elmsToRender << " vertices\n";
+            //cout << "NEW Indices size = " << indicesSize << endl;
+            //cout << "NEW vertices size = " << verticesSize << endl;
             
             /*
             unsigned int VBO, VAO, EBO;
@@ -572,17 +389,7 @@ int main()
 
         // camera/view transformation
         glm::mat4 view = ourCam.GetViewMatrix();
-        //ourShader.setMat4("view", view);
-
-
-        //glBindVertexArray(VAO);
-
-        //glBindTexture(GL_TEXTURE_2D, texture);
-        //bind textures an texture units
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, texture1);
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, texture2);
+        
 
 
         
@@ -597,11 +404,9 @@ int main()
         // input
         // -----
         processInput(window);
-
-        glm::mat4 projection = glm::perspective(glm::radians(ourCam.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.001f, 100.0f);
-        //ourShader.setMat4("projection", projection);
+        glm::mat4 projection = glm::perspective(glm::radians(ourCam.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.001f, 100.0f);       
         view = ourCam.GetViewMatrix();
-        //ourShader.setMat4("view", view);
+        
 
         /*Rotating Camera*/
         if (rotateCamera) {
@@ -609,9 +414,7 @@ int main()
             float spinSpeed = 0.33;
             float camX = sin(glfwGetTime()*spinSpeed) * radius;
             float camZ = cos(glfwGetTime()*spinSpeed) * radius;
-            //glm::mat4 view;
-            view = glm::lookAt(glm::vec3(camX, 40.0, camZ), glm::vec3(0.0, 19.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
-            //view = glm::lookAt(glm::vec3(10.0, 30.0, 30.0), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+            view = glm::lookAt(glm::vec3(camX, 40.0, camZ), glm::vec3(0.0, 19.0, 0.0), glm::vec3(0.0, 1.0, 0.0));            
         }
         int viewLoc = glGetUniformLocation(ourShader.ID, "view");
         glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
@@ -619,17 +422,9 @@ int main()
         glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
         
 
-        
-        //glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-        
-        
-        
-
-        // render container 10 times
-        
-        
+        // render container 10 times       
         glBindVertexArray(VAO);
-        //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //draws using indices in EBO
+        
         float timeVar = 1.0f *  (float)glfwGetTime();
         for (unsigned int i = 0; i < 1; i++)
         {
@@ -642,14 +437,12 @@ int main()
             model = glm::scale(model, glm::vec3(scale, scale, scale));
             int modelLoc = glGetUniformLocation(ourShader.ID, "model");
             glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-            //ourShader.setMat4("model", model);
-
-            //glDrawArrays(GL_TRIANGLES, 0, 3);
+            
             ourShader.use();
             glBindVertexArray(VAO);
-            //glDrawElements(GL_TRIANGLES, elmsToRender /*num vertices*/, GL_UNSIGNED_INT, 0);
+            
             glDrawElements(GL_TRIANGLES, 6*numRectangles /*num vertices*/, GL_UNSIGNED_INT, 0);
-            //glBindVertexArray(0);
+            
         }
         
         if (colorSetChange == 1) {
@@ -660,40 +453,11 @@ int main()
                 colorSetVal += 1;
             }
             ourShader.setInt1("colorSet", colorSetVal);
-            cout << "colorSetVal set to " << colorSetVal << endl;
+            //cout << "colorSetVal set to " << colorSetVal << endl;
             colorSetChange = 0;
         }
         
-        //numRectangles += 1;
-
         
-        //ourShader.use();
-        //glBindVertexArray(VAO);
-        //glDrawElements(GL_TRIANGLES, elmsToRender, GL_UNSIGNED_INT, 0);
-        //glDrawArrays(GL_TRIANGLES, 0, 36); //draws vertices.  (How does it know where to connect triangles?)
-
-
-        /*
-        glm::mat4 trans = glm::mat4(1.0f); //transformation matrix
-        //first triangle
-        //trans = glm::translate(trans, glm::vec3(0.0f, 0.0f, 0.0f));
-        trans = glm::rotate(trans, -(float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
-        
-        
-        unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
-        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-        */
-        //second triangle
-        /*
-        trans = glm::mat4(1.0f); //reset trans mat
-        //trans = glm::scale(trans, glm::vec3(2.0 * glfwGetTime(), 2.0 * glfwGetTime(), 2.0 * glfwGetTime())); //zooming
-        //trans = glm::translate(trans, glm::vec3(0.0f, 0.0f, 0.0f));
-        trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
-        transformLoc = glGetUniformLocation(ourShader.ID, "transform");
-        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-        */
 
 
         
@@ -779,13 +543,7 @@ void processInput(GLFWwindow* window)
     if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS) {
         numRectangles = numRectanglesMax;
     }
-    
-        
 
-
-    //mouse input not handled in this function!!!
-    
-    
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
