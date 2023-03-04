@@ -61,6 +61,7 @@ public:
 	/* Displays L-System rules to the console
 	*/
 	void readRules() {
+		cout << "[lsystem] READ RULES CALLED\n";
 		cout << "The " << rules.size() / 3 << " rules made by Lsystem mutate() are: \n";
 		for (int i = 0; i < rules.size(); i++) {
 			cout << rules[i] << ", " << rules[i + 1] << ", " << rules[i + 2] << endl;;

@@ -83,7 +83,7 @@ public:
 
      
         
-        //L.readRules();
+        
         L.iterate(3);
         instructions = L.getInstructions();
         

@@ -90,6 +90,7 @@ bool doAnimate = false;
 
 int main()
 {
+    
     // glfw: initialize and configure
     // ------------------------------
     glfwInit();
@@ -130,9 +131,6 @@ int main()
 
     // build and compile our shader program
     // ------------------------------------
-    //tp 
-    std::cout << "calling Shader constructor..." << std::endl;
-
     Shader ourShader("3.3.shader.vs", "3.3.shader.fs");
     
     
@@ -142,7 +140,7 @@ int main()
     //tell turtle to generate vertices and index information
     turtle.draw3D();
     
-    cout << "turtle drew " << turtle.numVertices/3 << " triangles. \n";
+    //cout << "turtle drew " << turtle.numVertices/3 << " triangles. \n";
     
     //get vertex info from the turtle and convert to CPP array
     vector<float> vertices_vec = turtle.getVertices();
@@ -171,10 +169,10 @@ int main()
     }
 
 
-    cout << "ORIG tree has elmsToRender " << turtle.numVertices << " vertices\n";
+    //cout << "ORIG tree has elmsToRender " << turtle.numVertices << " vertices\n";
     
-    cout << "ORIG Indices size = " << indicesSize << endl;
-    cout << "ORIG vertices size = " << verticesSize << endl;
+    //cout << "ORIG Indices size = " << indicesSize << endl;
+    //cout << "ORIG vertices size = " << verticesSize << endl;
 
 
     //TP
